@@ -193,9 +193,14 @@ async function load(){
 }
 
 async function saveSh(){
-  const p=new URLSearchParams({action:'save',password:PW,tools:JSON.stringify(tools)});
-  try{const r=await fetch(GAS+'?'+p);const d=await r.json();if(d.error)throw new Error(d.error);}
-  catch(ex){toast('保存エラー: '+ex.message);throw ex;}
+  try{
+    const r=await fetch(GAS,{
+      method:'POST',
+      body:JSON.stringify({action:'save',password:PW,tools:tools}),
+    });
+    const d=await r.json();
+    if(d.error)throw new Error(d.error);
+  }catch(ex){toast('保存エラー: '+ex.message);throw ex;}
 }
 
 function rAll(){rTA();rSB();rMC();rBN();rMain();}
