@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>株式会社あしすと — ツールポータル</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0efe9;--text:#1a1a1a;--text2:#6b6b6b;--text3:#9b9b9b;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);--radius:8px;--radius-lg:12px;--accent:#3B6D11;--accent-hover:#27500A}
+  @media(prefers-color-scheme:dark){:root{--bg:#1e1e1e;--bg2:#272727;--bg3:#2a2a2a;--text:#f0f0f0;--text2:#a0a0a0;--text3:#666;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.18)}}
+  body{font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif;background:var(--bg3);color:var(--text);min-height:100vh}
+  .wrapper{max-width:1100px;margin:0 auto;padding:2rem 1.25rem}
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;gap:12px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+  .logo-mark{width:32px;height:32px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#EAF3DE;font-size:15px;font-weight:700;flex-shrink:0}
+  .logo h1{font-size:17px;font-weight:600;color:var(--text)}
+  .header-sub{font-size:13px;color:var(--text2);padding-left:42px}
+  .add-btn{background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--radius);padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;color:var(--text);white-space:nowrap}
+  .add-btn:hover{background:var(--bg2)}
+  .search-wrap{margin-bottom:1rem}
+  .search-wrap input{width:100%;padding:9px 14px;border:0.5px solid var(--border2);border-radius:var(--radius);font-size:14px;background:var(--bg);color:var(--text);outline:none;font-family:inherit}
+  .search-wrap input:focus{border-color:var(--accent)}
+  .tabs{display:flex;gap:4px;margin-bottom:1.5rem;flex-wrap:wrap}
+  .tab{padding:6px 13px;border-radius:var(--radius);font-size:13px;cursor:pointer;border:0.5px solid transparent;color:var(--text2);background:transparent}
+  .tab:hover{background:var(--bg2)}
+  .tab.active{background:var(--bg);border-color:var(--border2);color:var(--text);font-weight:500}
+  .tab .cnt{opacity:0.5}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+  .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:.875rem;display:flex;flex-direction:column;gap:7px;transition:border-color .15s}
+  .card:hover{border-color:var(--border2)}
+  .card-top{display:flex;align-items:flex-start;gap:9px}
+  .icon{width:34px;height:34px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+  .card-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.4}
+  .card-cat{display:inline-block;font-size:11px;padding:2px 7px;border-radius:20px;margin-top:2px;font-weight:500}
+  .card-desc{font-size:12px;color:var(--text2);line-height:1.55;flex:1}
+  .card-note{font-size:11px;color:var(--text3);background:var(--bg2);border-radius:var(--radius);padding:5px 8px;line-height:1.5}
+  .card-actions{display:flex;gap:5px;margin-top:2px}
+  .open-btn{flex:1;padding:6px;border-radius:var(--radius);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--border2);background:transparent;color:var(--text);text-align:center;text-decoration:none;display:block}
+  .open-btn:hover{background:var(--bg2)}
+  .open-btn.disabled{opacity:0.35;cursor:default;pointer-events:none}
+  .edit-btn{padding:6px 9px;border-radius:var(--radius);font-size:12px;cursor:pointer;border:0.5px solid var(--border);background:transparent;color:var(--text2)}
+  .edit-btn:hover{background:var(--bg2)}
+  .empty{text-align:center;padding:3rem;color:var(--text3);font-size:14px;grid-column:1/-1}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem}
+  .modal{background:var(--bg);border-radius:var(--radius-lg);border:0.5px solid var(--border2);padding:1.5rem;width:100%;max-width:440px;max-height:90vh;overflow-y:auto}
+  .modal h2{font-size:16px;font-weight:500;margin-bottom:1.25rem}
+  .field{margin-bottom:.875rem}
+  .field label{display:block;font-size:12px;color:var(--text2);margin-bottom:3px}
+  .field input,.field textarea,.field select{width:100%;padding:8px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);font-size:14px;background:var(--bg);color:var(--text);outline:none;font-family:inherit}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+  .field textarea{resize:vertical;min-height:64px}
+  .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;align-items:center}
+  .btn-save{padding:8px 18px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;border:none;background:var(--accent);color:#fff}
+  .btn-save:hover{background:var(--accent-hover)}
+  .btn-cancel{padding:8px 18px;border-radius:var(--radius);font-size:13px;cursor:pointer;border:0.5px solid var(--border2);background:transparent;color:var(--text)}
+  .btn-del{padding:8px 14px;border-radius:var(--radius);font-size:13px;cursor:pointer;border:0.5px solid var(--border);background:transparent;color:#c0392b;margin-right:auto}
+</style>
+</head>
+<body>
+<div class="wrapper" id="app"></div>
+<script>
+const CATS=["すべて","訪問看護","ケアマネ","リハビリ","デイサービス","全体・管理","採用・広報","AIツール","外部サービス"];
+const CS={"訪問看護":{bg:"#E1F5EE",c:"#0F6E56"},"ケアマネ":{bg:"#E6F1FB",c:"#185FA5"},"リハビリ":{bg:"#EEEDFE",c:"#534AB7"},"デイサービス":{bg:"#FAEEDA",c:"#854F0B"},"全体・管理":{bg:"#F1EFE8",c:"#5F5E5A"},"採用・広報":{bg:"#FAECE7",c:"#993C1D"},"AIツール":{bg:"#E6F1FB",c:"#185FA5"},"外部サービス":{bg:"#EAF3DE",c:"#3B6D11"}};
+const DEFAULT=[
+  {id:1,name:"体重管理アプリ",url:"https://success-programming-share.com/preview/57a75bc74f290740f5c70664d8f234d3089b74337f746c26354706f93fe61dc5",cat:"デイサービス",icon:"⚖️",desc:"利用者の体重を記録・管理するアプリ",note:""},
+  {id:2,name:"口腔栄養スクリーニング",url:"https://success-programming-share.com/preview/9245dbbfcb53b1b8aa4304e2f6f6d71c685bffab3bf0e784879f3d4ff4eee659",cat:"訪問看護",icon:"🦷",desc:"口腔・栄養状態のスクリーニングツール",note:""},
+  {id:3,name:"ケアマネ採用サイト",url:"https://tfujii-bot.github.io/caremanager-/",cat:"採用・広報",icon:"🏠",desc:"ケアマネージャー向け採用LP",note:""},
+  {id:4,name:"訪問看護採用サイト",url:"https://tfujii-bot.github.io/assist-nursing/",cat:"採用・広報",icon:"💉",desc:"訪問看護師向け採用LP",note:""},
+  {id:5,name:"リハ管理",url:"https://rehab-app-one.vercel.app/",cat:"リハビリ",icon:"🧠",desc:"リハビリ業務の管理・記録アプリ",note:""},
+  {id:6,name:"タクシーシステム",url:"https://success-programming-share.com/preview/85ee2b534662ff20b15c548d3f0e3605d69708ec2eae0f71a83b588cca988b4e",cat:"デイサービス",icon:"🚗",desc:"デイサービス送迎・タクシー管理システム",note:""},
+  {id:7,name:"LINE WORKS",url:"https://talk.worksmobile.com/#/",cat:"全体・管理",icon:"💬",desc:"社内チャット・連絡ツール",note:""},
+  {id:8,name:"Gmail",url:"https://mail.google.com/mail/u/0/#inbox",cat:"全体・管理",icon:"📧",desc:"会社メール",note:""},
+  {id:9,name:"ibow訪問看護",url:"https://login.ibowservice.jp/",cat:"訪問看護",icon:"🏥",desc:"訪問看護記録・請求システム",note:""},
+  {id:10,name:"Google Drive",url:"https://drive.google.com/drive/my-drive",cat:"全体・管理",icon:"📁",desc:"社内ファイル共有・保管",note:""},
+  {id:11,name:"レコル勤怠管理",url:"https://app.recoru.in/ap/",cat:"全体・管理",icon:"🕐",desc:"スタッフ勤怠管理システム",note:""},
+  {id:12,name:"SmartHR",url:"https://2a61bed649089a1503271b8b.smarthr.jp/login",cat:"全体・管理",icon:"👥",desc:"人事・労務管理システム",note:""},
+  {id:13,name:"eFax",url:"https://portal.efax.co.jp/myaccount/",cat:"全体・管理",icon:"📠",desc:"オンラインFAX送受信",note:""},
+  {id:14,name:"リハプラン",url:"https://auth.rehaplan.jp/login",cat:"リハビリ",icon:"📋",desc:"リハビリ計画・実績管理システム",note:""},
+  {id:15,name:"ケアマネ君",url:"https://www.caremanekun.care/#login",cat:"ケアマネ",icon:"🗂️",desc:"ケアマネ業務支援システム",note:""},
+  {id:16,name:"ChatGPT",url:"https://platform.openai.com/apps",cat:"AIツール",icon:"🤖",desc:"OpenAI製AIアシスタント",note:""},
+  {id:17,name:"Gemini",url:"https://gemini.google.com/app",cat:"AIツール",icon:"✨",desc:"Google製AIアシスタント",note:""},
+  {id:18,name:"Claude",url:"https://claude.ai/",cat:"AIツール",icon:"🔮",desc:"Anthropic製AIアシスタント",note:""},
+  {id:19,name:"PLAUD",url:"https://web.plaud.ai/login",cat:"AIツール",icon:"🎙️",desc:"AI録音・文字起こしツール",note:""},
+  {id:20,name:"食事補助 エデンレッド",url:"https://trtorder.edenred.jp/Account/Login",cat:"外部サービス",icon:"🍱",desc:"食事補助・福利厚生サービス",note:""},
+  {id:21,name:"ジョブメドレー",url:"https://jm-academy.com/login",cat:"外部サービス",icon:"📚",desc:"医療・介護職向け教育プラットフォーム",note:""},
+  {id:22,name:"S-QUE訪問看護",url:"https://jm-academy.com/login",cat:"訪問看護",icon:"📖",desc:"訪問看護向けeラーニングシステム",note:""}
+];
+const KEY='assist_portal_v3';
+let tools=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT;
+let nextId=Math.max(...tools.map(t=>t.id),0)+1;
+let activeTab="すべて",searchQ="",editingId=null,showModal=false,form={};
+function save(){localStorage.setItem(KEY,JSON.stringify(tools));}
+function filtered(){let list=activeTab==="すべて"?[...tools]:tools.filter(t=>t.cat===activeTab);if(searchQ.trim()){const q=searchQ.toLowerCase();list=list.filter(t=>(t.name+t.desc+t.cat).toLowerCase().includes(q));}return list;}
+function openAdd(){editingId=null;form={name:"",url:"",cat:"全体・管理",icon:"🔧",desc:"",note:""};showModal=true;render();setTimeout(()=>document.getElementById('f-name')?.focus(),50);}
+function openEdit(id){editingId=id;form={...tools.find(x=>x.id===id)};showModal=true;render();setTimeout(()=>document.getElementById('f-name')?.focus(),50);}
+function closeModal(){showModal=false;render();}
+function saveForm(){if(!form.name.trim())return;if(editingId)tools=tools.map(t=>t.id===editingId?{...t,...form}:t);else tools.push({id:nextId++,...form});save();closeModal();}
+function deleteTool(){if(!confirm('このツールを削除しますか？'))return;tools=tools.filter(t=>t.id!==editingId);save();closeModal();}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function badge(cat){const s=CS[cat]||{bg:'#F1EFE8',c:'#5F5E5A'};return`<span class="card-cat" style="background:${s.bg};color:${s.c}">${esc(cat)}</span>`;}
+function render(){
+  const app=document.getElementById('app');
+  const list=filtered();
+  const cnt=c=>c==="すべて"?tools.length:tools.filter(x=>x.cat===c).length;
+  const tabsHtml=CATS.map(c=>`<div class="tab${activeTab===c?' active':''}" onclick="activeTab='${esc(c)}';render()">${esc(c)} <span class="cnt">${cnt(c)}</span></div>`).join('');
+  const cardsHtml=list.length===0?`<div class="empty">該当するツールが見つかりません</div>`:list.map(t=>`
+    <div class="card">
+      <div class="card-top">
+        <div class="icon" style="background:${(CS[t.cat]||{bg:'#F1EFE8'}).bg}">${esc(t.icon)||'🔧'}</div>
+        <div><div class="card-name">${esc(t.name)}</div>${badge(t.cat)}</div>
+      </div>
+      ${t.desc?`<div class="card-desc">${esc(t.desc)}</div>`:''}
+      ${t.note?`<div class="card-note">${esc(t.note)}</div>`:''}
+      <div class="card-actions">
+        <a class="open-btn${t.url?'':' disabled'}" ${t.url?`href="${esc(t.url)}" target="_blank" rel="noopener"`:''}>開く ↗</a>
+        <button class="edit-btn" onclick="openEdit(${t.id})">編集</button>
+      </div>
+    </div>`).join('');
+  const modalHtml=showModal?`
+  <div class="overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <h2>${editingId?'ツールを編集':'ツールを追加'}</h2>
+      <div class="field"><label>ツール名 *</label><input id="f-name" value="${esc(form.name)}" oninput="form.name=this.value" placeholder="例：ケアマネ君"></div>
+      <div class="field"><label>URL</label><input id="f-url" value="${esc(form.url)}" oninput="form.url=this.value" placeholder="https://..."></div>
+      <div class="field"><label>カテゴリ</label><select id="f-cat" onchange="form.cat=this.value">${CATS.slice(1).map(c=>`<option value="${esc(c)}"${form.cat===c?' selected':''}>${esc(c)}</option>`).join('')}</select></div>
+      <div class="field"><label>アイコン（絵文字）</label><input id="f-icon" value="${esc(form.icon||'🔧')}" oninput="form.icon=this.value" style="width:80px"></div>
+      <div class="field"><label>説明</label><textarea id="f-desc" oninput="form.desc=this.value">${esc(form.desc)}</textarea></div>
+      <div class="field"><label>使い方メモ・注意事項</label><textarea id="f-note" oninput="form.note=this.value">${esc(form.note)}</textarea></div>
+      <div class="modal-footer">
+        ${editingId?`<button class="btn-del" onclick="deleteTool()">削除</button>`:''}
+        <button class="btn-cancel" onclick="closeModal()">キャンセル</button>
+        <button class="btn-save" onclick="saveForm()">保存</button>
+      </div>
+    </div>
+  </div>`:'';
+  app.innerHTML=`
+  <div class="header">
+    <div>
+      <div class="logo"><div class="logo-mark">A</div><h1>株式会社あしすと — ツールポータル</h1></div>
+      <div class="header-sub">社内ツール・サイト一覧　${tools.length}件</div>
+    </div>
+    <button class="add-btn" onclick="openAdd()">+ ツールを追加</button>
+  </div>
+  <div class="search-wrap"><input placeholder="ツール名・説明で検索..." oninput="searchQ=this.value;render()" value="${esc(searchQ)}"></div>
+  <div class="tabs">${tabsHtml}</div>
+  <div class="grid">${cardsHtml}</div>
+  ${modalHtml}`;
+}
+render();
+</script>
+</body>
+</html>
