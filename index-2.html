@@ -6,125 +6,145 @@
 <title>あしすと ツールポータル</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #f7f6f3;
-    --surface: #ffffff;
-    --border: #e8e6e0;
-    --border-hover: #c8c4bc;
-    --text: #1a1916;
-    --text-muted: #6b6860;
-    --text-hint: #a09e98;
-    --accent: #2563eb;
-    --radius: 10px;
-    --radius-lg: 14px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+:root{--bg:#f7f6f3;--surface:#fff;--border:#e8e6e0;--border-hover:#c8c4bc;--text:#1a1916;--text-muted:#6b6860;--text-hint:#a09e98;--accent:#2563eb;--rl:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-  /* Top bar */
-  .top-bar {
-    background: var(--surface); border-bottom: 1px solid var(--border);
-    padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
-    height: 56px; position: sticky; top: 0; z-index: 50; gap: 12px;
-  }
-  .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-  .logo-mark { width: 28px; height: 28px; background: var(--text); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #fff; }
-  .logo-text { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
-  .logo-sub { font-size: 12px; color: var(--text-muted); margin-left: 4px; }
-  .search-wrap { flex: 1; max-width: 360px; position: relative; }
-  .search-wrap input { width: 100%; padding: 7px 12px 7px 34px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; background: var(--bg); color: var(--text); font-family: inherit; outline: none; transition: border-color .15s; }
-  .search-wrap input:focus { border-color: var(--accent); }
-  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-hint); font-size: 14px; pointer-events: none; }
-  .top-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .admin-badge { font-size: 11px; background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 20px; font-weight: 500; }
-  .btn-top { padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: opacity .15s; white-space: nowrap; border: none; }
-  .btn-dark { background: var(--text); color: #fff; }
-  .btn-dark:hover { opacity: .85; }
-  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border) !important; border: none; }
-  .btn-outline:hover { background: var(--bg); }
+/* ===== TOP BAR ===== */
+.top-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:28px;height:28px;background:var(--text);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff}
+.logo-text{font-size:15px;font-weight:700;letter-spacing:-.02em}
+.logo-sub{font-size:12px;color:var(--text-muted);margin-left:4px}
+.sw{flex:1;max-width:360px;position:relative}
+.sw input{width:100%;padding:7px 12px 7px 34px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--bg);color:var(--text);font-family:inherit;outline:none}
+.sw input:focus{border-color:var(--accent)}
+.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-hint);font-size:14px;pointer-events:none}
+.top-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.admin-badge{font-size:11px;background:#fef3c7;color:#92400e;padding:3px 8px;border-radius:20px;font-weight:500}
+.bsm{padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
+.bdark{background:var(--text);color:#fff;border:none}.bdark:hover{opacity:.85}
+.bline{background:transparent;color:var(--text);border:1px solid var(--border)}.bline:hover{background:var(--bg)}
 
-  /* Layout */
-  .layout { display: flex; min-height: calc(100vh - 56px); }
-  .sidebar { width: 200px; flex-shrink: 0; padding: 20px 12px; border-right: 1px solid var(--border); background: var(--surface); position: sticky; top: 56px; height: calc(100vh - 56px); overflow-y: auto; }
-  .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--text-hint); text-transform: uppercase; padding: 0 8px; margin-bottom: 6px; }
-  .nav-item { display: flex; align-items: center; justify-content: space-between; padding: 7px 8px; border-radius: 8px; font-size: 13px; cursor: pointer; color: var(--text-muted); transition: background .1s, color .1s; margin-bottom: 1px; }
-  .nav-item:hover { background: var(--bg); color: var(--text); }
-  .nav-item.active { background: var(--bg); color: var(--text); font-weight: 500; }
-  .nav-count { font-size: 11px; color: var(--text-hint); background: var(--bg); padding: 1px 6px; border-radius: 10px; min-width: 22px; text-align: center; }
-  .nav-item.active .nav-count { background: var(--border); }
+/* ===== LAYOUT ===== */
+.layout{display:flex;min-height:calc(100vh - 56px)}
+.sidebar{width:200px;flex-shrink:0;padding:20px 12px;border-right:1px solid var(--border);background:var(--surface);position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.slabel{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-hint);text-transform:uppercase;padding:0 8px;margin-bottom:6px}
+.ni{display:flex;align-items:center;justify-content:space-between;padding:7px 8px;border-radius:8px;font-size:13px;cursor:pointer;color:var(--text-muted);margin-bottom:1px;transition:background .1s}
+.ni:hover{background:var(--bg);color:var(--text)}.ni.active{background:var(--bg);color:var(--text);font-weight:500}
+.nc{font-size:11px;color:var(--text-hint);background:var(--bg);padding:1px 6px;border-radius:10px;min-width:22px;text-align:center}
+.ni.active .nc{background:var(--border)}
+.main{flex:1;padding:24px;overflow-x:hidden;padding-bottom:100px}
+.stitle{font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.syncbtn{font-size:11px;padding:3px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;color:var(--text-muted);font-family:inherit}
+.view-toggle{display:none;margin-left:auto;gap:4px}
 
-  /* Main */
-  .main { flex: 1; padding: 24px; overflow-x: hidden; }
-  .section-title { font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-  .sync-btn { font-size: 11px; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--border); background: transparent; cursor: pointer; color: var(--text-muted); font-family: inherit; }
-  .sync-btn:hover { background: var(--bg); }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+/* ===== GRID VIEW ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,box-shadow .15s;position:relative}
+.card:hover{border-color:var(--border-hover);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.card.dragging{opacity:.4;border-style:dashed}
+.card.drag-over{border-color:var(--accent);box-shadow:0 0 0 2px rgba(37,99,235,.2)}
+.ctop{display:flex;align-items:flex-start;gap:10px}
+.cicon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cname-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cname{font-size:13px;font-weight:500;color:var(--text);line-height:1.4}
+.new-badge{font-size:9px;font-weight:700;background:#ef4444;color:#fff;padding:2px 5px;border-radius:4px;letter-spacing:.03em;flex-shrink:0}
+.cbadge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;margin-top:3px}
+.cdesc{font-size:12px;color:var(--text-muted);line-height:1.6;flex:1}
+.cnote{font-size:11px;color:var(--text-hint);background:var(--bg);border-radius:7px;padding:5px 8px;line-height:1.55}
+.cfoot{display:flex;gap:6px;margin-top:2px;align-items:center}
+.obtn{flex:1;padding:7px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text);text-align:center;text-decoration:none;display:block;font-family:inherit;transition:background .1s}
+.obtn:hover{background:var(--bg)}.obtn.nurl{opacity:.35;cursor:default;pointer-events:none}
+.ebtn{padding:7px 10px;border-radius:8px;font-size:12px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:inherit}
+.ebtn:hover{background:var(--bg)}
+.fav-btn{background:none;border:none;cursor:pointer;font-size:16px;padding:4px;line-height:1;opacity:.3;transition:opacity .15s,transform .15s}
+.fav-btn:hover{opacity:.7}.fav-btn.on{opacity:1;transform:scale(1.1)}
+.drag-handle{cursor:grab;font-size:14px;color:var(--text-hint);padding:4px 2px;line-height:1;user-select:none}
+.drag-handle:active{cursor:grabbing}
 
-  /* Card */
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, box-shadow .15s; }
-  .card:hover { border-color: var(--border-hover); box-shadow: 0 2px 8px rgba(0,0,0,.05); }
-  .card-top { display: flex; align-items: flex-start; gap: 10px; }
-  .card-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-  .card-name { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
-  .cat-badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 20px; margin-top: 3px; }
-  .card-desc { font-size: 12px; color: var(--text-muted); line-height: 1.6; flex: 1; }
-  .card-note { font-size: 11px; color: var(--text-hint); background: var(--bg); border-radius: 7px; padding: 5px 8px; line-height: 1.55; }
-  .card-footer { display: flex; gap: 6px; margin-top: 2px; }
-  .open-btn { flex: 1; padding: 7px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text); text-align: center; text-decoration: none; display: block; font-family: inherit; transition: background .1s; }
-  .open-btn:hover { background: var(--bg); }
-  .open-btn.no-url { opacity: .35; cursor: default; pointer-events: none; }
-  .edit-btn { padding: 7px 10px; border-radius: 8px; font-size: 12px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-family: inherit; transition: background .1s; }
-  .edit-btn:hover { background: var(--bg); }
-  .empty { grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-hint); font-size: 14px; }
+/* ===== LIST VIEW ===== */
+.list-view .grid{display:flex;flex-direction:column;gap:6px}
+.list-view .card{flex-direction:row;align-items:center;padding:10px 14px;gap:12px}
+.list-view .ctop{flex:1;align-items:center;gap:10px;min-width:0}
+.list-view .cicon{width:30px;height:30px;font-size:15px;flex-shrink:0}
+.list-view .cdesc,.list-view .cnote,.list-view .drag-handle{display:none}
+.list-view .cfoot{margin-top:0;flex-shrink:0}
+.list-view .cbadge{display:none}
+.list-view .cname{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-view .new-badge{flex-shrink:0}
 
-  /* Loading */
-  .loading { grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--text-hint); font-size: 14px; }
-  .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--text-muted); border-radius: 50%; animation: spin .7s linear infinite; margin-right: 8px; vertical-align: middle; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+.empty,.loading{grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-hint);font-size:14px}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--text-muted);border-radius:50%;animation:sp .7s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes sp{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:300;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
 
-  /* Toast */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 13px; z-index: 300; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .toast.show { opacity: 1; }
+/* ===== MOBILE BOTTOM NAV ===== */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--surface);border-top:1px solid var(--border);z-index:100;padding:0 4px;padding-bottom:env(safe-area-inset-bottom)}
+.bnav-inner{display:flex;height:100%;align-items:stretch}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;border:none;background:transparent;font-family:inherit;padding:4px 2px;border-radius:8px;transition:background .1s;color:var(--text-muted);font-size:10px;font-weight:500;min-width:0}
+.bnav-item:hover{background:var(--bg)}
+.bnav-item.active{color:var(--accent)}
+.bnav-icon{font-size:20px;line-height:1}
+.bnav-label{font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;padding:0 2px}
 
-  /* Overlay / Modal */
-  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.3); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
-  .modal { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 24px; width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .modal-header h2 { font-size: 15px; font-weight: 700; }
-  .close-btn { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-muted); }
-  .field { margin-bottom: 14px; }
-  .field label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
-  .field input, .field textarea, .field select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; color: var(--text); font-family: inherit; background: var(--surface); outline: none; transition: border-color .15s; }
-  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
-  .field textarea { resize: vertical; min-height: 68px; }
-  .field-row { display: flex; gap: 10px; }
-  .field-row .field { flex: 1; }
-  .modal-footer { display: flex; align-items: center; gap: 8px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
-  .btn { padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; }
-  .btn-fill { background: var(--text); color: #fff; border: none; }
-  .btn-fill:hover { opacity: .85; }
-  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-  .btn-ghost:hover { background: var(--bg); }
-  .btn-del { background: transparent; color: #dc2626; border: 1px solid #fecaca; margin-right: auto; }
-  .btn-del:hover { background: #fff1f1; }
+/* ===== MOBILE CAT SCROLL ===== */
+.mobile-cats{display:none;overflow-x:auto;white-space:nowrap;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--border);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.mobile-cats::-webkit-scrollbar{display:none}
+.mcat{display:inline-block;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text-muted);margin-right:6px;white-space:nowrap;font-family:inherit;transition:all .15s}
+.mcat.active{background:var(--text);color:#fff;border-color:var(--text)}
 
-  /* Category colors */
-  .cat-訪問看護 { background: #E1F5EE; color: #0F6E56; }
-  .cat-ケアマネ { background: #E6F1FB; color: #185FA5; }
-  .cat-リハビリ { background: #EEEDFE; color: #534AB7; }
-  .cat-デイサービス { background: #FAEEDA; color: #854F0B; }
-  .cat-全体管理 { background: #F1EFE8; color: #5F5E5A; }
-  .cat-採用広報 { background: #FAECE7; color: #993C1D; }
-  .cat-AIツール { background: #dbeafe; color: #1d4ed8; }
-  .cat-外部サービス { background: #EAF3DE; color: #3B6D11; }
+/* ===== VIEW TOGGLE BTNS ===== */
+.vtbtn{padding:5px 8px;border-radius:6px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:13px;color:var(--text-muted)}
+.vtbtn.active{background:var(--text);color:#fff;border-color:var(--text)}
 
-  @media (max-width: 640px) {
-    .sidebar { display: none; }
-    .search-wrap { max-width: none; }
-    .main { padding: 16px; }
-    .grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .logo-sub { display: none; }
-  }
+/* ===== MODAL ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem}
+.modal{background:var(--surface);border-radius:var(--rl);border:1px solid var(--border);padding:24px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto}
+.msm{max-width:340px}
+.mhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.mhdr h2{font-size:15px;font-weight:700}
+.xbtn{background:none;border:none;cursor:pointer;font-size:18px;color:var(--text-muted)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:5px;font-weight:500}
+.field input,.field textarea,.field select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);font-family:inherit;background:var(--surface);outline:none;transition:border-color .15s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:68px}
+.frow{display:flex;gap:10px}.frow .field{flex:1}
+.mfoot{display:flex;align-items:center;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.btn{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.bfill{background:var(--text);color:#fff;border:none}.bfill:hover{opacity:.85}
+.bghost{background:transparent;color:var(--text);border:1px solid var(--border)}.bghost:hover{background:var(--bg)}
+.bdel{background:transparent;color:#dc2626;border:1px solid #fecaca;margin-right:auto}.bdel:hover{background:#fff1f1}
+.new-chk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.new-chk input{width:16px;height:16px;cursor:pointer}
+
+/* Category colors */
+.c訪問看護{background:#E1F5EE;color:#0F6E56}.cケアマネ{background:#E6F1FB;color:#185FA5}
+.cリハビリ{background:#EEEDFE;color:#534AB7}.cデイサービス{background:#FAEEDA;color:#854F0B}
+.c全体管理{background:#F1EFE8;color:#5F5E5A}.c採用広報{background:#FAECE7;color:#993C1D}
+.cAIツール{background:#dbeafe;color:#1d4ed8}.c外部サービス{background:#EAF3DE;color:#3B6D11}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:640px){
+  .sidebar{display:none}
+  .logo-sub{display:none}
+  .sw{max-width:none}
+  .top-actions .bsm span{display:none}
+  .main{padding:12px;padding-bottom:110px}
+  .bottom-nav{display:flex}
+  .mobile-cats{display:block}
+  .view-toggle{display:flex}
+  .toast{bottom:70px}
+  .stitle{font-size:12px}
+  .grid{grid-template-columns:1fr 1fr}
+  .list-view .grid{grid-template-columns:1fr}
+}
+@media(min-width:641px){
+  .bottom-nav{display:none!important}
+  .mobile-cats{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -135,266 +155,284 @@
     <span class="logo-text">あしすと</span>
     <span class="logo-sub">ツールポータル</span>
   </div>
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="search" placeholder="ツール名・説明で検索..." oninput="onSearch(this.value)">
-  </div>
+  <div class="sw"><span class="si">🔍</span><input type="text" id="search" placeholder="ツール名・説明で検索..." oninput="onSearch(this.value)"></div>
   <div class="top-actions" id="top-actions"></div>
 </header>
 
+<!-- スマホ：カテゴリ横スクロール -->
+<div class="mobile-cats" id="mobile-cats"></div>
+
 <div class="layout">
   <nav class="sidebar" id="sidebar"></nav>
-  <main class="main" id="main"></main>
+  <main class="main" id="main-wrap">
+    <div id="main"></div>
+  </main>
 </div>
 
-<div id="overlay-container"></div>
+<!-- スマホ：ボトムナビ -->
+<nav class="bottom-nav" id="bottom-nav">
+  <div class="bnav-inner" id="bnav-inner"></div>
+</nav>
+
+<div id="modals"></div>
 <div class="toast" id="toast"></div>
 
 <script>
-const GAS_URL = 'https://script.google.com/macros/s/AKfycby4-WV8Wl7Dm9R5J36-BWSKjRVWVqZYkHVcK2aeeWfMCkt3TVDPHd9OJCMfr8Mn9LNc/exec';
-const ADMIN_PASSWORD = 'assist2024';
-
-const CATS = ["すべて","訪問看護","ケアマネ","リハビリ","デイサービス","全体・管理","採用・広報","AIツール","外部サービス"];
-const CC = {"訪問看護":"cat-訪問看護","ケアマネ":"cat-ケアマネ","リハビリ":"cat-リハビリ","デイサービス":"cat-デイサービス","全体・管理":"cat-全体管理","採用・広報":"cat-採用広報","AIツール":"cat-AIツール","外部サービス":"cat-外部サービス"};
-const IB = {"訪問看護":"#E1F5EE","ケアマネ":"#E6F1FB","リハビリ":"#EEEDFE","デイサービス":"#FAEEDA","全体・管理":"#F1EFE8","採用・広報":"#FAECE7","AIツール":"#dbeafe","外部サービス":"#EAF3DE"};
-
-const DEFAULTS = [
-  {id:1,name:"体重管理アプリ",url:"https://success-programming-share.com/preview/57a75bc74f290740f5c70664d8f234d3089b74337f746c26354706f93fe61dc5",cat:"デイサービス",icon:"⚖️",desc:"利用者の体重を記録・管理するアプリ",note:""},
-  {id:2,name:"口腔栄養スクリーニング",url:"https://success-programming-share.com/preview/9245dbbfcb53b1b8aa4304e2f6f6d71c685bffab3bf0e784879f3d4ff4eee659",cat:"訪問看護",icon:"🦷",desc:"口腔・栄養状態のスクリーニングツール",note:""},
-  {id:3,name:"ケアマネ採用サイト",url:"https://tfujii-bot.github.io/caremanager-/",cat:"採用・広報",icon:"🏠",desc:"ケアマネージャー向け採用ランディングページ",note:""},
-  {id:4,name:"訪問看護採用サイト",url:"https://tfujii-bot.github.io/assist-nursing/",cat:"採用・広報",icon:"💉",desc:"訪問看護師向け採用ランディングページ",note:""},
-  {id:5,name:"リハ管理",url:"https://rehab-app-one.vercel.app/",cat:"リハビリ",icon:"🧠",desc:"リハビリ業務の管理・記録アプリ",note:""},
-  {id:6,name:"タクシーシステム",url:"https://success-programming-share.com/preview/85ee2b534662ff20b15c548d3f0e3605d69708ec2eae0f71a83b588cca988b4e",cat:"デイサービス",icon:"🚗",desc:"デイサービス送迎・タクシー管理システム",note:""},
-  {id:7,name:"LINE WORKS",url:"https://talk.worksmobile.com/#/",cat:"全体・管理",icon:"💬",desc:"社内チャット・連絡ツール",note:""},
-  {id:8,name:"Gmail",url:"https://mail.google.com/mail/u/0/#inbox",cat:"全体・管理",icon:"📧",desc:"会社メール",note:""},
-  {id:9,name:"ibow訪問看護",url:"https://login.ibowservice.jp/",cat:"訪問看護",icon:"🏥",desc:"訪問看護記録・請求システム",note:""},
-  {id:10,name:"Google Drive",url:"https://drive.google.com/drive/my-drive",cat:"全体・管理",icon:"📁",desc:"社内ファイル共有・保管",note:""},
-  {id:11,name:"レコル勤怠管理",url:"https://app.recoru.in/ap/",cat:"全体・管理",icon:"🕐",desc:"スタッフ勤怠管理システム",note:""},
-  {id:12,name:"SmartHR",url:"https://2a61bed649089a1503271b8b.smarthr.jp/login",cat:"全体・管理",icon:"👥",desc:"人事・労務管理システム",note:""},
-  {id:13,name:"eFax",url:"https://portal.efax.co.jp/myaccount/",cat:"全体・管理",icon:"📠",desc:"オンラインFAX送受信",note:""},
-  {id:14,name:"リハプラン",url:"https://auth.rehaplan.jp/login",cat:"リハビリ",icon:"📋",desc:"リハビリ計画・実績管理システム",note:""},
-  {id:15,name:"ケアマネ君",url:"https://www.caremanekun.care/#login",cat:"ケアマネ",icon:"🗂️",desc:"ケアマネ業務支援システム",note:""},
-  {id:16,name:"ChatGPT",url:"https://platform.openai.com/apps",cat:"AIツール",icon:"🤖",desc:"OpenAI製AIアシスタント",note:""},
-  {id:17,name:"Gemini",url:"https://gemini.google.com/app",cat:"AIツール",icon:"✨",desc:"Google製AIアシスタント",note:""},
-  {id:18,name:"Claude",url:"https://claude.ai/",cat:"AIツール",icon:"🔮",desc:"Anthropic製AIアシスタント",note:""},
-  {id:19,name:"PLAUD",url:"https://web.plaud.ai/login",cat:"AIツール",icon:"🎙️",desc:"AI録音・文字起こしツール",note:""},
-  {id:20,name:"食事補助 エデンレッド",url:"https://trtorder.edenred.jp/Account/Login",cat:"外部サービス",icon:"🍱",desc:"食事補助・福利厚生サービス",note:""},
-  {id:21,name:"ジョブメドレー",url:"https://jm-academy.com/login",cat:"外部サービス",icon:"📚",desc:"医療・介護職向け教育プラットフォーム",note:""},
-  {id:22,name:"S-QUE訪問看護",url:"https://jm-academy.com/login",cat:"訪問看護",icon:"📖",desc:"訪問看護向けeラーニングシステム",note:""}
+const GAS='https://script.google.com/macros/s/AKfycby4-WV8Wl7Dm9R5J36-BWSKjRVWVqZYkHVcK2aeeWfMCkt3TVDPHd9OJCMfr8Mn9LNc/exec';
+const PW='assist1212';
+const CATS=["すべて","⭐ お気に入り","訪問看護","ケアマネ","リハビリ","デイサービス","全体・管理","採用・広報","AIツール","外部サービス"];
+// ボトムナビに表示するカテゴリ（アイコン付き）
+const BNAV=[
+  {cat:"すべて",icon:"🏠",label:"ホーム"},
+  {cat:"⭐ お気に入り",icon:"⭐",label:"お気に入り"},
+  {cat:"全体・管理",icon:"⚙️",label:"管理"},
+  {cat:"AIツール",icon:"🤖",label:"AI"},
+  {cat:"訪問看護",icon:"🏥",label:"訪問看護"},
+];
+const CC={"訪問看護":"c訪問看護","ケアマネ":"cケアマネ","リハビリ":"cリハビリ","デイサービス":"cデイサービス","全体・管理":"c全体管理","採用・広報":"c採用広報","AIツール":"cAIツール","外部サービス":"c外部サービス"};
+const IB={"訪問看護":"#E1F5EE","ケアマネ":"#E6F1FB","リハビリ":"#EEEDFE","デイサービス":"#FAEEDA","全体・管理":"#F1EFE8","採用・広報":"#FAECE7","AIツール":"#dbeafe","外部サービス":"#EAF3DE"};
+const DEFAULTS=[
+  {id:1,name:"体重管理アプリ",url:"https://success-programming-share.com/preview/57a75bc74f290740f5c70664d8f234d3089b74337f746c26354706f93fe61dc5",cat:"デイサービス",icon:"⚖️",desc:"利用者の体重を記録・管理するアプリ",note:"",isNew:false},
+  {id:2,name:"口腔栄養スクリーニング",url:"https://success-programming-share.com/preview/9245dbbfcb53b1b8aa4304e2f6f6d71c685bffab3bf0e784879f3d4ff4eee659",cat:"訪問看護",icon:"🦷",desc:"口腔・栄養状態のスクリーニングツール",note:"",isNew:false},
+  {id:3,name:"ケアマネ採用サイト",url:"https://tfujii-bot.github.io/caremanager-/",cat:"採用・広報",icon:"🏠",desc:"ケアマネージャー向け採用ランディングページ",note:"",isNew:false},
+  {id:4,name:"訪問看護採用サイト",url:"https://tfujii-bot.github.io/assist-nursing/",cat:"採用・広報",icon:"💉",desc:"訪問看護師向け採用ランディングページ",note:"",isNew:false},
+  {id:5,name:"リハ管理",url:"https://rehab-app-one.vercel.app/",cat:"リハビリ",icon:"🧠",desc:"リハビリ業務の管理・記録アプリ",note:"",isNew:false},
+  {id:6,name:"タクシーシステム",url:"https://success-programming-share.com/preview/85ee2b534662ff20b15c548d3f0e3605d69708ec2eae0f71a83b588cca988b4e",cat:"デイサービス",icon:"🚗",desc:"デイサービス送迎・タクシー管理システム",note:"",isNew:false},
+  {id:7,name:"LINE WORKS",url:"https://talk.worksmobile.com/#/",cat:"全体・管理",icon:"💬",desc:"社内チャット・連絡ツール",note:"",isNew:false},
+  {id:8,name:"Gmail",url:"https://mail.google.com/mail/u/0/#inbox",cat:"全体・管理",icon:"📧",desc:"会社メール",note:"",isNew:false},
+  {id:9,name:"ibow訪問看護",url:"https://login.ibowservice.jp/",cat:"訪問看護",icon:"🏥",desc:"訪問看護記録・請求システム",note:"",isNew:false},
+  {id:10,name:"Google Drive",url:"https://drive.google.com/drive/my-drive",cat:"全体・管理",icon:"📁",desc:"社内ファイル共有・保管",note:"",isNew:false},
+  {id:11,name:"レコル勤怠管理",url:"https://app.recoru.in/ap/",cat:"全体・管理",icon:"🕐",desc:"スタッフ勤怠管理システム",note:"",isNew:false},
+  {id:12,name:"SmartHR",url:"https://2a61bed649089a1503271b8b.smarthr.jp/login",cat:"全体・管理",icon:"👥",desc:"人事・労務管理システム",note:"",isNew:false},
+  {id:13,name:"eFax",url:"https://portal.efax.co.jp/myaccount/",cat:"全体・管理",icon:"📠",desc:"オンラインFAX送受信",note:"",isNew:false},
+  {id:14,name:"リハプラン",url:"https://auth.rehaplan.jp/login",cat:"リハビリ",icon:"📋",desc:"リハビリ計画・実績管理システム",note:"",isNew:false},
+  {id:15,name:"ケアマネ君",url:"https://www.caremanekun.care/#login",cat:"ケアマネ",icon:"🗂️",desc:"ケアマネ業務支援システム",note:"",isNew:false},
+  {id:16,name:"ChatGPT",url:"https://platform.openai.com/apps",cat:"AIツール",icon:"🤖",desc:"OpenAI製AIアシスタント",note:"",isNew:false},
+  {id:17,name:"Gemini",url:"https://gemini.google.com/app",cat:"AIツール",icon:"✨",desc:"Google製AIアシスタント",note:"",isNew:false},
+  {id:18,name:"Claude",url:"https://claude.ai/",cat:"AIツール",icon:"🔮",desc:"Anthropic製AIアシスタント",note:"",isNew:false},
+  {id:19,name:"PLAUD",url:"https://web.plaud.ai/login",cat:"AIツール",icon:"🎙️",desc:"AI録音・文字起こしツール",note:"",isNew:false},
+  {id:20,name:"食事補助 エデンレッド",url:"https://trtorder.edenred.jp/Account/Login",cat:"外部サービス",icon:"🍱",desc:"食事補助・福利厚生サービス",note:"",isNew:false},
+  {id:21,name:"ジョブメドレー",url:"https://jm-academy.com/login",cat:"外部サービス",icon:"📚",desc:"医療・介護職向け教育プラットフォーム",note:"",isNew:false},
+  {id:22,name:"S-QUE訪問看護",url:"https://jm-academy.com/login",cat:"訪問看護",icon:"📖",desc:"訪問看護向けeラーニングシステム",note:"",isNew:false}
 ];
 
-let tools = [];
-let nextId = 100;
-let activeTab = "すべて";
-let searchQ = "";
-let editingId = null;
-let form = {};
-let isAdmin = false;
-let isLoading = true;
+let tools=[],nextId=100,activeTab="すべて",searchQ="",editingId=null,isAdmin=false,isLoading=true,isListView=false;
+let favs=new Set(JSON.parse(localStorage.getItem('assist_favs')||'[]'));
+let dragSrcId=null;
 
-// Toast
-function toast(msg, duration=2500) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), duration);
+function saveFavs(){localStorage.setItem('assist_favs',JSON.stringify([...favs]));}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(msg,ms=2500){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),ms);}
+function closeModal(){document.getElementById('modals').innerHTML='';}
+
+function filtered(){
+  let l;
+  if(activeTab==="⭐ お気に入り") l=tools.filter(t=>favs.has(t.id));
+  else if(activeTab==="すべて") l=[...tools];
+  else l=tools.filter(t=>t.cat===activeTab);
+  if(searchQ.trim()){const q=searchQ.toLowerCase();l=l.filter(t=>(t.name+t.desc+t.cat).toLowerCase().includes(q));}
+  return l;
+}
+function catCount(c){
+  if(c==="⭐ お気に入り") return tools.filter(t=>favs.has(t.id)).length;
+  return c==="すべて"?tools.length:tools.filter(t=>t.cat===c).length;
+}
+function onSearch(v){searchQ=v;renderAll();}
+function setTab(c){activeTab=c;renderAll();}
+function toggleFav(id){if(favs.has(id))favs.delete(id);else favs.add(id);saveFavs();renderAll();}
+function toggleView(){isListView=!isListView;renderMain();}
+
+async function loadFromSheets(){
+  isLoading=true;renderMain();
+  try{
+    const res=await fetch(GAS+'?t='+Date.now());
+    const data=await res.json();
+    if(data.tools&&data.tools.length>0){
+      tools=data.tools.map(t=>({...t,id:Number(t.id),isNew:t.isNew==='TRUE'||t.isNew===true}));
+      nextId=Math.max(...tools.map(t=>t.id),0)+1;
+    }else{tools=JSON.parse(JSON.stringify(DEFAULTS));nextId=100;}
+  }catch(e){tools=JSON.parse(JSON.stringify(DEFAULTS));nextId=100;toast('オフラインモード');}
+  isLoading=false;renderAll();
 }
 
-function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function filtered() {
-  let list = activeTab === "すべて" ? tools : tools.filter(t => t.cat === activeTab);
-  if (searchQ.trim()) { const q = searchQ.toLowerCase(); list = list.filter(t => (t.name+t.desc+t.cat).toLowerCase().includes(q)); }
-  return list;
-}
-function catCount(c) { return c === "すべて" ? tools.length : tools.filter(t => t.cat === c).length; }
-function onSearch(v) { searchQ = v; renderMain(); }
-
-// Load from GAS
-async function loadFromSheets() {
-  isLoading = true;
-  renderMain();
-  try {
-    const res = await fetch(GAS_URL);
-    const data = await res.json();
-    if (data.tools && data.tools.length > 0) {
-      tools = data.tools.map(t => ({...t, id: Number(t.id)}));
-      nextId = Math.max(...tools.map(t => t.id), 0) + 1;
-    } else {
-      tools = DEFAULTS;
-      nextId = Math.max(...tools.map(t => t.id), 0) + 1;
-      if (isAdmin) await saveToSheets();
-    }
-  } catch(e) {
-    tools = DEFAULTS;
-    nextId = Math.max(...tools.map(t => t.id), 0) + 1;
-    toast('オフラインモード（ローカルデータを表示中）');
-  }
-  isLoading = false;
-  renderSidebar();
-  renderMain();
+async function saveToSheets(){
+  const params=new URLSearchParams({action:'save',password:PW,tools:JSON.stringify(tools)});
+  try{
+    const res=await fetch(GAS+'?'+params.toString());
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+  }catch(e){toast('保存エラー: '+e.message);throw e;}
 }
 
-// Save to GAS
-async function saveToSheets() {
-  try {
-    await fetch(GAS_URL, {
-      method: 'POST',
-      body: JSON.stringify({ password: ADMIN_PASSWORD, action: 'save', tools }),
-    });
-  } catch(e) {
-    toast('保存に失敗しました');
-  }
+function renderAll(){renderTopActions();renderSidebar();renderMobileCats();renderBottomNav();renderMain();}
+
+function renderTopActions(){
+  document.getElementById('top-actions').innerHTML=isAdmin
+    ?`<span class="admin-badge">管理者</span><button class="bsm bline" onclick="logoutAdmin()">ログアウト</button><button class="bsm bdark" onclick="openAdd()">+ 追加</button>`
+    :`<button class="bsm bline" onclick="openAdminLogin()">管理者</button>`;
 }
 
-// Admin login
-function openAdminLogin() {
-  document.getElementById('overlay-container').innerHTML = `
-  <div class="overlay" onclick="if(event.target===this)closeModal()">
-    <div class="modal" style="max-width:340px">
-      <div class="modal-header"><h2>管理者ログイン</h2><button class="close-btn" onclick="closeModal()">✕</button></div>
-      <div class="field"><label>パスワード</label>
-        <input type="password" id="admin-pw" placeholder="パスワードを入力" onkeydown="if(event.key==='Enter')checkAdmin()">
-      </div>
-      <div id="login-err" style="font-size:12px;color:#dc2626;margin-bottom:8px;display:none">パスワードが違います</div>
-      <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="closeModal()">キャンセル</button>
-        <button class="btn btn-fill" onclick="checkAdmin()">ログイン</button>
-      </div>
-    </div>
-  </div>`;
-  setTimeout(() => document.getElementById('admin-pw')?.focus(), 50);
+function renderSidebar(){
+  document.getElementById('sidebar').innerHTML=`<div class="slabel">カテゴリ</div>`+
+    CATS.map(c=>`<div class="ni${activeTab===c?' active':''}" onclick="setTab('${c}')"><span>${c}</span><span class="nc">${catCount(c)}</span></div>`).join('');
 }
 
-function checkAdmin() {
-  const pw = document.getElementById('admin-pw').value;
-  if (pw === ADMIN_PASSWORD) {
-    isAdmin = true;
-    closeModal();
-    renderTopActions();
-    renderMain();
-    toast('管理者モードで入りました');
-  } else {
-    document.getElementById('login-err').style.display = 'block';
-  }
+function renderMobileCats(){
+  document.getElementById('mobile-cats').innerHTML=
+    CATS.map(c=>`<button class="mcat${activeTab===c?' active':''}" onclick="setTab('${c}')">${c} ${catCount(c)}</button>`).join('');
 }
 
-function logoutAdmin() {
-  isAdmin = false;
-  renderTopActions();
-  renderMain();
-  toast('ログアウトしました');
+function renderBottomNav(){
+  document.getElementById('bnav-inner').innerHTML=
+    BNAV.map(b=>`<button class="bnav-item${activeTab===b.cat?' active':''}" onclick="setTab('${b.cat}')">
+      <span class="bnav-icon">${b.icon}</span>
+      <span class="bnav-label">${b.label}</span>
+    </button>`).join('')+
+    (isAdmin?`<button class="bnav-item" onclick="openAdd()"><span class="bnav-icon">➕</span><span class="bnav-label">追加</span></button>`:'');
 }
 
-function renderTopActions() {
-  document.getElementById('top-actions').innerHTML = isAdmin
-    ? `<span class="admin-badge">管理者</span>
-       <button class="btn-top btn-outline" onclick="logoutAdmin()">ログアウト</button>
-       <button class="btn-top btn-dark" onclick="openAdd()">+ ツールを追加</button>`
-    : `<button class="btn-top btn-outline" style="border:1px solid var(--border)" onclick="openAdminLogin()">管理者</button>`;
-}
-
-function renderSidebar() {
-  document.getElementById('sidebar').innerHTML = `<div class="sidebar-label">カテゴリ</div>` +
-    CATS.map(c => `<div class="nav-item${activeTab===c?' active':''}" onclick="setTab('${c}')"><span>${c}</span><span class="nav-count">${catCount(c)}</span></div>`).join('');
-}
-
-function renderMain() {
-  const list = filtered();
-  const label = searchQ ? `「${searchQ}」の検索結果 ${list.length}件` : `${activeTab} · ${list.length}件`;
-
+function renderMain(){
+  const list=filtered();
+  const label=searchQ?`「${searchQ}」の検索結果 ${list.length}件`:`${activeTab} · ${list.length}件`;
   let cards;
-  if (isLoading) {
-    cards = `<div class="loading"><span class="spinner"></span>読み込み中...</div>`;
-  } else if (list.length === 0) {
-    cards = `<div class="empty">該当するツールが見つかりません</div>`;
-  } else {
-    cards = list.map(t => `
-      <div class="card">
-        <div class="card-top">
-          <div class="card-icon" style="background:${IB[t.cat]||'#F1EFE8'}">${t.icon||'🔧'}</div>
-          <div><div class="card-name">${esc(t.name)}</div><span class="cat-badge ${CC[t.cat]||''}">${t.cat}</span></div>
+  if(isLoading){cards=`<div class="loading"><span class="spin"></span>読み込み中...</div>`;}
+  else if(list.length===0){
+    const msg=activeTab==="⭐ お気に入り"?'⭐をタップしてお気に入りに追加':'該当するツールが見つかりません';
+    cards=`<div class="empty">${msg}</div>`;
+  }else{
+    cards=list.map(t=>`
+    <div class="card" id="card-${t.id}" draggable="${isAdmin&&!isListView?'true':'false'}"
+      ${isAdmin&&!isListView?`ondragstart="onDragStart(event,${t.id})" ondragover="onDragOver(event,${t.id})" ondrop="onDrop(event,${t.id})" ondragleave="onDragLeave(event)" ondragend="onDragEnd(event)"`:''}
+    >
+      <div class="ctop">
+        ${isAdmin&&!isListView?`<span class="drag-handle">⠿</span>`:''}
+        <div class="cicon" style="background:${IB[t.cat]||'#F1EFE8'}">${t.icon||'🔧'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="cname-row">
+            <span class="cname">${esc(t.name)}</span>
+            ${t.isNew?`<span class="new-badge">NEW</span>`:''}
+          </div>
+          <span class="cbadge ${CC[t.cat]||''}">${t.cat}</span>
         </div>
-        ${t.desc?`<div class="card-desc">${esc(t.desc)}</div>`:''}
-        ${t.note?`<div class="card-note">${esc(t.note)}</div>`:''}
-        <div class="card-footer">
-          <a class="open-btn${t.url?'':' no-url'}" ${t.url?`href="${esc(t.url)}" target="_blank" rel="noopener"`:''}">開く ↗</a>
-          ${isAdmin?`<button class="edit-btn" onclick="openEdit(${t.id})">編集</button>`:''}
-        </div>
-      </div>`).join('');
+      </div>
+      <div class="cdesc">${esc(t.desc)}</div>
+      ${t.note?`<div class="cnote">${esc(t.note)}</div>`:''}
+      <div class="cfoot">
+        <a class="obtn${t.url?'':' nurl'}" ${t.url?`href="${esc(t.url)}" target="_blank" rel="noopener"`:''}">開く ↗</a>
+        <button class="fav-btn${favs.has(t.id)?' on':''}" onclick="toggleFav(${t.id})">⭐</button>
+        ${isAdmin?`<button class="ebtn" onclick="openEdit(${t.id})">編集</button>`:''}
+      </div>
+    </div>`).join('');
   }
 
-  document.getElementById('main').innerHTML = `
-    <div class="section-title">
+  document.getElementById('main').innerHTML=`
+    <div class="stitle">
       ${label}
-      <button class="sync-btn" onclick="loadFromSheets()">↻ 最新を取得</button>
-    </div>
-    <div class="grid">${cards}</div>`;
-}
-
-function setTab(c) { activeTab = c; renderSidebar(); renderMain(); }
-
-function openAdd() {
-  editingId = null;
-  form = { name:"", url:"", cat:"全体・管理", icon:"🔧", desc:"", note:"" };
-  showModal();
-}
-function openEdit(id) {
-  editingId = id;
-  form = { ...tools.find(t => t.id === id) };
-  showModal();
-}
-
-function showModal() {
-  document.getElementById('overlay-container').innerHTML = `
-  <div class="overlay" onclick="if(event.target===this)closeModal()">
-    <div class="modal">
-      <div class="modal-header"><h2>${editingId?'ツールを編集':'ツールを追加'}</h2><button class="close-btn" onclick="closeModal()">✕</button></div>
-      <div class="field"><label>ツール名 *</label><input id="f-name" value="${esc(form.name)}" oninput="form.name=this.value" placeholder="例：体重管理アプリ"></div>
-      <div class="field"><label>URL</label><input id="f-url" value="${esc(form.url)}" oninput="form.url=this.value" placeholder="https://..."></div>
-      <div class="field-row">
-        <div class="field"><label>カテゴリ</label><select id="f-cat" onchange="form.cat=this.value">${CATS.slice(1).map(c=>`<option value="${c}"${form.cat===c?' selected':''}>${c}</option>`).join('')}</select></div>
-        <div class="field" style="flex:0 0 80px"><label>アイコン</label><input id="f-icon" value="${esc(form.icon)}" oninput="form.icon=this.value"></div>
+      <button class="syncbtn" onclick="loadFromSheets()">↻</button>
+      <div class="view-toggle" style="margin-left:auto;display:flex;gap:4px">
+        <button class="vtbtn${!isListView?' active':''}" onclick="isListView=false;renderMain()" title="グリッド表示">⊞</button>
+        <button class="vtbtn${isListView?' active':''}" onclick="isListView=true;renderMain()" title="リスト表示">☰</button>
       </div>
-      <div class="field"><label>説明</label><textarea id="f-desc" oninput="form.desc=this.value">${esc(form.desc)}</textarea></div>
-      <div class="field"><label>使い方メモ・注意事項</label><textarea id="f-note" oninput="form.note=this.value">${esc(form.note)}</textarea></div>
-      <div class="modal-footer">
-        ${editingId?`<button class="btn btn-del" onclick="deleteTool()">削除</button>`:''}
-        <button class="btn btn-ghost" onclick="closeModal()">キャンセル</button>
-        <button class="btn btn-fill" onclick="saveForm()">保存</button>
+    </div>
+    <div class="${isListView?'list-view':''}" id="grid-wrap">
+      <div class="grid" id="grid">${cards}</div>
+    </div>`;
+}
+
+// Drag & Drop
+function onDragStart(e,id){dragSrcId=id;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function onDragOver(e,id){e.preventDefault();if(id!==dragSrcId)e.currentTarget.classList.add('drag-over');return false;}
+function onDragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function onDragEnd(e){document.querySelectorAll('.card').forEach(c=>c.classList.remove('dragging','drag-over'));}
+function onDrop(e,targetId){
+  e.preventDefault();
+  if(dragSrcId===targetId)return;
+  const si=tools.findIndex(t=>t.id===dragSrcId),ti=tools.findIndex(t=>t.id===targetId);
+  if(si<0||ti<0)return;
+  const moved=tools.splice(si,1)[0];
+  tools.splice(ti,0,moved);
+  renderAll();
+  saveToSheets().then(()=>toast('並び順を保存しました ✓')).catch(()=>{});
+}
+
+// Admin
+function openAdminLogin(){
+  document.getElementById('modals').innerHTML=`
+  <div class="overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal msm">
+      <div class="mhdr"><h2>管理者ログイン</h2><button class="xbtn" onclick="closeModal()">✕</button></div>
+      <div class="field"><label>パスワード</label><input type="password" id="apw" placeholder="パスワードを入力" onkeydown="if(event.key==='Enter')checkAdmin()"></div>
+      <div style="font-size:12px;color:#dc2626;margin-bottom:8px;display:none" id="lerr">パスワードが違います</div>
+      <div class="mfoot"><button class="btn bghost" onclick="closeModal()">キャンセル</button><button class="btn bfill" onclick="checkAdmin()">ログイン</button></div>
+    </div>
+  </div>`;
+  setTimeout(()=>document.getElementById('apw')?.focus(),50);
+}
+function checkAdmin(){
+  const pw=document.getElementById('apw').value;
+  if(pw===PW){isAdmin=true;closeModal();renderAll();toast('管理者モードで入りました ✓');}
+  else{document.getElementById('lerr').style.display='block';document.getElementById('apw').value='';document.getElementById('apw').focus();}
+}
+function logoutAdmin(){isAdmin=false;renderAll();toast('ログアウトしました');}
+
+function openAdd(){
+  if(!isAdmin)return;
+  editingId=null;
+  document.getElementById('modals').innerHTML=buildToolModal(false,{name:'',url:'',cat:'全体・管理',icon:'🔧',desc:'',note:'',isNew:true});
+  setTimeout(()=>document.getElementById('fn')?.focus(),50);
+}
+function openEdit(id){
+  if(!isAdmin)return;
+  editingId=id;
+  document.getElementById('modals').innerHTML=buildToolModal(true,tools.find(x=>x.id===id));
+  setTimeout(()=>document.getElementById('fn')?.focus(),50);
+}
+function buildToolModal(isEdit,t){
+  return `<div class="overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="mhdr"><h2>${isEdit?'ツールを編集':'ツールを追加'}</h2><button class="xbtn" onclick="closeModal()">✕</button></div>
+      <div class="field"><label>ツール名 *</label><input id="fn" type="text" value="${esc(t.name)}" placeholder="例：体重管理アプリ"></div>
+      <div class="field"><label>URL</label><input id="fu" type="text" value="${esc(t.url)}" placeholder="https://..."></div>
+      <div class="frow">
+        <div class="field"><label>カテゴリ</label><select id="fc">${CATS.filter(c=>c!=="すべて"&&c!=="⭐ お気に入り").map(c=>`<option value="${c}"${t.cat===c?' selected':''}>${c}</option>`).join('')}</select></div>
+        <div class="field" style="flex:0 0 80px"><label>アイコン</label><input id="fi" type="text" value="${esc(t.icon)}"></div>
+      </div>
+      <div class="field"><label>説明</label><textarea id="fd">${esc(t.desc)}</textarea></div>
+      <div class="field"><label>使い方メモ・注意事項</label><textarea id="fno">${esc(t.note)}</textarea></div>
+      <label class="new-chk"><input type="checkbox" id="fnew"${t.isNew?' checked':''}> NEWバッジを表示する</label>
+      <div class="mfoot">
+        ${isEdit?`<button class="btn bdel" onclick="deleteTool()">削除</button>`:''}
+        <button class="btn bghost" onclick="closeModal()">キャンセル</button>
+        <button class="btn bfill" onclick="saveForm()">保存</button>
       </div>
     </div>
   </div>`;
-  setTimeout(() => document.getElementById('f-name')?.focus(), 50);
+}
+async function saveForm(){
+  const name=(document.getElementById('fn').value||'').trim();
+  const url=document.getElementById('fu').value||'';
+  const cat=document.getElementById('fc').value||'全体・管理';
+  const icon=document.getElementById('fi').value||'🔧';
+  const desc=document.getElementById('fd').value||'';
+  const note=document.getElementById('fno').value||'';
+  const isNew=document.getElementById('fnew').checked;
+  if(!name){alert('ツール名を入力してください');return;}
+  const entry={name,url,cat,icon,desc,note,isNew};
+  if(editingId)tools=tools.map(t=>t.id===editingId?{...t,...entry}:t);
+  else tools.push({id:nextId++,...entry});
+  closeModal();renderAll();
+  toast('保存中...');await saveToSheets();toast('保存しました ✓');
+}
+async function deleteTool(){
+  const name=tools.find(t=>t.id===editingId)?.name||'このツール';
+  if(!confirm(`「${name}」を削除しますか？`))return;
+  tools=tools.filter(t=>t.id!==editingId);
+  favs.delete(editingId);saveFavs();
+  closeModal();renderAll();
+  toast('削除中...');await saveToSheets();toast('削除しました ✓');
 }
 
-function closeModal() { document.getElementById('overlay-container').innerHTML = ''; }
-
-async function saveForm() {
-  if (!form.name.trim()) { alert('ツール名を入力してください'); return; }
-  if (editingId) tools = tools.map(t => t.id === editingId ? {...t, ...form} : t);
-  else tools.push({ id: nextId++, ...form });
-  closeModal();
-  renderSidebar();
-  renderMain();
-  toast('保存中...');
-  await saveToSheets();
-  toast('保存しました ✓');
-}
-
-async function deleteTool() {
-  if (!confirm(`「${form.name}」を削除しますか？`)) return;
-  tools = tools.filter(t => t.id !== editingId);
-  closeModal();
-  renderSidebar();
-  renderMain();
-  toast('削除中...');
-  await saveToSheets();
-  toast('削除しました ✓');
-}
-
-// Init
-renderTopActions();
-renderSidebar();
+renderAll();
 loadFromSheets();
 </script>
 </body>
