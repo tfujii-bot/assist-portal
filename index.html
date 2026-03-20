@@ -194,10 +194,11 @@ async function load(){
 
 async function saveSh(){
   try{
-    const r=await fetch(GAS,{
-      method:'POST',
-      body:JSON.stringify({action:'save',password:PW,tools:tools}),
-    });
+    const form=new FormData();
+    form.append('action','save');
+    form.append('password',PW);
+    form.append('tools',JSON.stringify(tools));
+    const r=await fetch(GAS,{method:'POST',body:form});
     const d=await r.json();
     if(d.error)throw new Error(d.error);
   }catch(ex){toast('保存エラー: '+ex.message);throw ex;}
