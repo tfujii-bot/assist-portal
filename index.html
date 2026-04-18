@@ -90,7 +90,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 .c訪問看護{background:#E1F5EE;color:#0F6E56}.cケアマネ{background:#E6F1FB;color:#185FA5}
 .cリハビリ{background:#EEEDFE;color:#534AB7}.cデイサービス{background:#FAEEDA;color:#854F0B}
 .c全体管理{background:#F1EFE8;color:#5F5E5A}.c採用広報{background:#FAECE7;color:#993C1D}
-.cAIツール{background:#dbeafe;color:#1d4ed8}.c外部サービス{background:#EAF3DE;color:#3B6D11}
+.cAIツール{background:#dbeafe;color:#1d4ed8}.c外部サービス{background:#EAF3DE;color:#3B6D11}.c全体{background:#F1EFE8;color:#5F5E5A}.c管理{background:#e2e8f0;color:#334155}.cタクシー{background:#fce7f3;color:#9d174d}.c自費{background:#f0fdf4;color:#166534}
 .lv .grid{display:flex;flex-direction:column;gap:6px}
 .lv .card{flex-direction:row;align-items:center;padding:10px 14px;gap:12px}
 .lv .ctop{flex:1;align-items:center;min-width:0}
@@ -132,24 +132,24 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text
 <script>
 const GAS='https://script.google.com/macros/s/AKfycby4-WV8Wl7Dm9R5J36-BWSKjRVWVqZYkHVcK2aeeWfMCkt3TVDPHd9OJCMfr8Mn9LNc/exec';
 const PW='assist1212';
-const CATS=['すべて','⭐お気に入り','訪問看護','ケアマネ','リハビリ','デイサービス','全体・管理','採用・広報','AIツール','外部サービス'];
-const BNAV=[{cat:'すべて',icon:'🏠',label:'ホーム'},{cat:'⭐お気に入り',icon:'⭐',label:'お気に入り'},{cat:'全体・管理',icon:'⚙️',label:'管理'},{cat:'AIツール',icon:'🤖',label:'AI'},{cat:'訪問看護',icon:'🏥',label:'看護'}];
-const CC={'訪問看護':'c訪問看護','ケアマネ':'cケアマネ','リハビリ':'cリハビリ','デイサービス':'cデイサービス','全体・管理':'c全体管理','採用・広報':'c採用広報','AIツール':'cAIツール','外部サービス':'c外部サービス'};
-const IB={'訪問看護':'#E1F5EE','ケアマネ':'#E6F1FB','リハビリ':'#EEEDFE','デイサービス':'#FAEEDA','全体・管理':'#F1EFE8','採用・広報':'#FAECE7','AIツール':'#dbeafe','外部サービス':'#EAF3DE'};
+const CATS=['すべて','⭐お気に入り','訪問看護','ケアマネ','リハビリ','デイサービス','全体','管理','タクシー','自費','採用・広報','AIツール','外部サービス'];
+const BNAV=[{cat:'すべて',icon:'🏠',label:'ホーム'},{cat:'⭐お気に入り',icon:'⭐',label:'お気に入り'},{cat:'全体',icon:'👥',label:'全体'},{cat:'管理',icon:'⚙️',label:'管理'},{cat:'訪問看護',icon:'🏥',label:'看護'}];
+const CC={'訪問看護':'c訪問看護','ケアマネ':'cケアマネ','リハビリ':'cリハビリ','デイサービス':'cデイサービス','全体':'c全体','管理':'c管理','タクシー':'cタクシー','自費':'c自費','採用・広報':'c採用広報','AIツール':'cAIツール','外部サービス':'c外部サービス'};
+const IB={'訪問看護':'#E1F5EE','ケアマネ':'#E6F1FB','リハビリ':'#EEEDFE','デイサービス':'#FAEEDA','全体':'#F1EFE8','管理':'#e2e8f0','タクシー':'#fce7f3','自費':'#f0fdf4','採用・広報':'#FAECE7','AIツール':'#dbeafe','外部サービス':'#EAF3DE'};
 const DEFS=[
   {id:1,name:'体重管理アプリ',url:'https://success-programming-share.com/preview/57a75bc74f290740f5c70664d8f234d3089b74337f746c26354706f93fe61dc5',cat:'デイサービス',icon:'⚖️',desc:'利用者の体重を記録・管理するアプリ',note:'',isNew:false},
   {id:2,name:'口腔栄養スクリーニング',url:'https://success-programming-share.com/preview/9245dbbfcb53b1b8aa4304e2f6f6d71c685bffab3bf0e784879f3d4ff4eee659',cat:'訪問看護',icon:'🦷',desc:'口腔・栄養状態のスクリーニングツール',note:'',isNew:false},
   {id:3,name:'ケアマネ採用サイト',url:'https://tfujii-bot.github.io/caremanager-/',cat:'採用・広報',icon:'🏠',desc:'ケアマネージャー向け採用ランディングページ',note:'',isNew:false},
   {id:4,name:'訪問看護採用サイト',url:'https://tfujii-bot.github.io/assist-nursing/',cat:'採用・広報',icon:'💉',desc:'訪問看護師向け採用ランディングページ',note:'',isNew:false},
   {id:5,name:'リハ管理',url:'https://rehab-app-one.vercel.app/',cat:'リハビリ',icon:'🧠',desc:'リハビリ業務の管理・記録アプリ',note:'',isNew:false},
-  {id:6,name:'タクシーシステム',url:'https://success-programming-share.com/preview/85ee2b534662ff20b15c548d3f0e3605d69708ec2eae0f71a83b588cca988b4e',cat:'デイサービス',icon:'🚗',desc:'デイサービス送迎・タクシー管理システム',note:'',isNew:false},
-  {id:7,name:'LINE WORKS',url:'https://talk.worksmobile.com/#/',cat:'全体・管理',icon:'💬',desc:'社内チャット・連絡ツール',note:'',isNew:false},
-  {id:8,name:'Gmail',url:'https://mail.google.com/mail/u/0/#inbox',cat:'全体・管理',icon:'📧',desc:'会社メール',note:'',isNew:false},
+  {id:6,name:'タクシーシステム',url:'https://success-programming-share.com/preview/85ee2b534662ff20b15c548d3f0e3605d69708ec2eae0f71a83b588cca988b4e',cat:'タクシー',icon:'🚗',desc:'デイサービス送迎・タクシー管理システム',note:'',isNew:false},
+  {id:7,name:'LINE WORKS',url:'https://talk.worksmobile.com/#/',cat:'全体',icon:'💬',desc:'社内チャット・連絡ツール',note:'',isNew:false},
+  {id:8,name:'Gmail',url:'https://mail.google.com/mail/u/0/#inbox',cat:'全体',icon:'📧',desc:'会社メール',note:'',isNew:false},
   {id:9,name:'ibow訪問看護',url:'https://login.ibowservice.jp/',cat:'訪問看護',icon:'🏥',desc:'訪問看護記録・請求システム',note:'',isNew:false},
-  {id:10,name:'Google Drive',url:'https://drive.google.com/drive/my-drive',cat:'全体・管理',icon:'📁',desc:'社内ファイル共有・保管',note:'',isNew:false},
-  {id:11,name:'レコル勤怠管理',url:'https://app.recoru.in/ap/',cat:'全体・管理',icon:'🕐',desc:'スタッフ勤怠管理システム',note:'',isNew:false},
-  {id:12,name:'SmartHR',url:'https://2a61bed649089a1503271b8b.smarthr.jp/login',cat:'全体・管理',icon:'👥',desc:'人事・労務管理システム',note:'',isNew:false},
-  {id:13,name:'eFax',url:'https://portal.efax.co.jp/myaccount/',cat:'全体・管理',icon:'📠',desc:'オンラインFAX送受信',note:'',isNew:false},
+  {id:10,name:'Google Drive',url:'https://drive.google.com/drive/my-drive',cat:'全体',icon:'📁',desc:'社内ファイル共有・保管',note:'',isNew:false},
+  {id:11,name:'レコル勤怠管理',url:'https://app.recoru.in/ap/',cat:'管理',icon:'🕐',desc:'スタッフ勤怠管理システム',note:'',isNew:false},
+  {id:12,name:'SmartHR',url:'https://2a61bed649089a1503271b8b.smarthr.jp/login',cat:'管理',icon:'👥',desc:'人事・労務管理システム',note:'',isNew:false},
+  {id:13,name:'eFax',url:'https://portal.efax.co.jp/myaccount/',cat:'管理',icon:'📠',desc:'オンラインFAX送受信',note:'',isNew:false},
   {id:14,name:'リハプラン',url:'https://auth.rehaplan.jp/login',cat:'リハビリ',icon:'📋',desc:'リハビリ計画・実績管理システム',note:'',isNew:false},
   {id:15,name:'ケアマネ君',url:'https://www.caremanekun.care/#login',cat:'ケアマネ',icon:'🗂️',desc:'ケアマネ業務支援システム',note:'',isNew:false},
   {id:16,name:'ChatGPT',url:'https://platform.openai.com/apps',cat:'AIツール',icon:'🤖',desc:'OpenAI製AIアシスタント',note:'',isNew:false},
@@ -158,26 +158,26 @@ const DEFS=[
   {id:19,name:'PLAUD',url:'https://web.plaud.ai/login',cat:'AIツール',icon:'🎙️',desc:'AI録音・文字起こしツール',note:'',isNew:false},
   {id:20,name:'食事補助 エデンレッド',url:'https://trtorder.edenred.jp/Account/Login',cat:'外部サービス',icon:'🍱',desc:'食事補助・福利厚生サービス',note:'',isNew:false},
   {id:21,name:'ジョブメドレー',url:'https://jm-academy.com/login',cat:'外部サービス',icon:'📚',desc:'医療・介護職向け教育プラットフォーム',note:'',isNew:false},
-  {id:22,name:'S-QUE訪問看護',url:'https://jm-academy.com/login',cat:'訪問看護',icon:'📖',desc:'訪問看護向けeラーニングシステム',note:'',isNew:false}
+  {id:22,name:'S-QUE訪問看護',url:'https://jm-academy.com/login',cat:'訪問看護',icon:'📖',desc:'訪問看護向けeラーニングシステム',note:'',isNew:false},
+  {id:23,name:'ネットで自衛消防訓練',url:'https://www.tfd.metro.tokyo.lg.jp/learning/contents/mokuji.html',cat:'管理',icon:'🚒',desc:'ネットで自衛消防訓練が受けられます',note:'',isNew:false},
+  {id:24,name:'自費リハ管理',url:'https://success-programming-share.com/preview/272cf613bfc018e5a3fa7c63485f3e2e7fea9c03e3b0bcc0f104dbb5f714a0d0',cat:'自費',icon:'🔧',desc:'スケジュール管理',note:'',isNew:false}
 ];
 
 let tools=[],nextId=100,tab='すべて',q='',editId=null,isAdmin=false,isLoading=true,isLV=false;
-let favs=new Set(JSON.parse(localStorage.getItem('af')||'[]'));
 let dSrc=null;
 
-function sf(){localStorage.setItem('af',JSON.stringify([...favs]));}
 function e(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function toast(m,d=2500){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),d);}
 function cm(){document.getElementById('modal-root').innerHTML='';}
 function getFiltered(){
-  let l=tab==='⭐お気に入り'?tools.filter(t=>favs.has(t.id)):tab==='すべて'?[...tools]:tools.filter(t=>t.cat===tab);
+  let l=tab==='⭐お気に入り'?tools.filter(t=>t.isFav):tab==='すべて'?[...tools]:tools.filter(t=>t.cat===tab);
   if(q.trim()){const lq=q.toLowerCase();l=l.filter(t=>(t.name+t.desc+t.cat).toLowerCase().includes(lq));}
   return l;
 }
-function cnt(c){return c==='⭐お気に入り'?tools.filter(t=>favs.has(t.id)).length:c==='すべて'?tools.length:tools.filter(t=>t.cat===c).length;}
+function cnt(c){return c==='⭐お気に入り'?tools.filter(t=>t.isFav).length:c==='すべて'?tools.length:tools.filter(t=>t.cat===c).length;}
 function onSearch(v){q=v;rMain();}
 function setTab(c){tab=c;rAll();}
-function toggleFav(id){favs.has(id)?favs.delete(id):favs.add(id);sf();rAll();}
+function toggleFav(id){if(!isAdmin)return;const t=tools.find(x=>x.id===id);if(!t)return;t.isFav=!t.isFav;rAll();saveSh().then(()=>toast((t.isFav?'お気に入りに追加':'お気に入りを解除')+' ✓')).catch(()=>{});}
 
 async function load(){
   isLoading=true;rMain();
@@ -185,7 +185,7 @@ async function load(){
     const r=await fetch(GAS+'?t='+Date.now());
     const d=await r.json();
     if(d.tools&&d.tools.length>0){
-      tools=d.tools.map(t=>({...t,id:Number(t.id),isNew:t.isNew==='TRUE'||t.isNew===true}));
+      tools=d.tools.map(t=>({...t,id:Number(t.id),isNew:t.isNew==='TRUE'||t.isNew===true,isFav:t.isFav==='TRUE'||t.isFav===true}));
       nextId=Math.max(...tools.map(t=>t.id),0)+1;
     }else{tools=JSON.parse(JSON.stringify(DEFS));nextId=100;}
   }catch{tools=JSON.parse(JSON.stringify(DEFS));nextId=100;toast('オフラインモード');}
@@ -241,7 +241,6 @@ function rMain(){
     cards=list.map(function(t){
       var bg=IB[t.cat]||'#F1EFE8';
       var cc=CC[t.cat]||'';
-      var fon=favs.has(t.id);
       return '<div class="card'+(t.id===dSrc?' dg':'')+'" id="c'+t.id+'"'+(isAdmin&&!isLV?' draggable="true" ondragstart="dgs(event,'+t.id+')" ondragover="dgo(event,'+t.id+')" ondrop="dgd(event,'+t.id+')" ondragleave="dgl(event)" ondragend="dge(event)"':'')+'>'+
         '<div class="ctop">'+
         (isAdmin&&!isLV?'<span class="dh">⠿</span>':'')+
@@ -254,7 +253,7 @@ function rMain(){
         (t.note?'<div class="cnote">'+e(t.note)+'</div>':'')+
         '<div class="cfoot">'+
           '<a class="obtn'+(t.url?'':' nurl')+'"'+(t.url?' href="'+e(t.url)+'" target="_blank" rel="noopener"':'')+'>開く ↗</a>'+
-          '<button class="fbtn'+(fon?' on':'')+'" onclick="toggleFav('+t.id+')">⭐</button>'+
+          '<button class="fbtn'+(t.isFav?' on':'')+'" '+(isAdmin?'onclick="toggleFav('+t.id+')"':'style="pointer-events:none"')+'>⭐</button>'+
           (isAdmin?'<button class="ebtn" onclick="openEdit('+t.id+')">編集</button>':'')+
         '</div></div>';
     }).join('');
@@ -310,7 +309,7 @@ function logout(){isAdmin=false;rAll();toast('ログアウトしました');}
 function openAdd(){
   if(!isAdmin)return;
   editId=null;
-  showToolModal({name:'',url:'',cat:'全体・管理',icon:'🔧',desc:'',note:'',isNew:true});
+  showToolModal({name:'',url:'',cat:'全体',icon:'🔧',desc:'',note:'',isNew:true});
 }
 function openEdit(id){
   if(!isAdmin)return;
@@ -408,7 +407,7 @@ async function doSave(inName,inUrl,selCat,inIcon,taDesc,taNote,chkNew){
 async function doDelete(){
   const name=tools.find(t=>t.id===editId)?.name||'このツール';
   if(!confirm('「'+name+'」を削除しますか？'))return;
-  tools=tools.filter(t=>t.id!==editId);favs.delete(editId);sf();
+  tools=tools.filter(t=>t.id!==editId);
   cm();rAll();
   toast('削除中...');await saveSh();toast('削除しました ✓');
 }
